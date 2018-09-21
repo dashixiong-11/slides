@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+   <div id="windows" class="windows">
+        <div id="images" class="images">
+                <img src="pic/1.jpg" alt="">
+                <img src="pic/2.jpg" alt="">
+                <img src="pic/3.jpg" alt="">
+                <img src="pic/4.jpg" alt="">
+        </div>
+        <div id="buttons" class="buttons ">
+            <div class="active"></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+   </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
+<script>
+
+     let buttons = $('#buttons>div')
+     var n=1
+     buttons.on('click',function(e){
+         let index = $(e.currentTarget).index()
+         let p = index*-798
+        $('#images').css({transform:'translate('+ p + 'px)'})
+        $(e.currentTarget).addClass('active').siblings('.active').removeClass('active')    
+     })
+     var timerId=setInterval(()=>{      
+        var m = n%buttons.length
+        buttons.eq(m).trigger('click').addClass('active').siblings('.active').removeClass('active')
+        n+=1     
+    },4000)
+
+    $('.images,.buttons').on('mouseenter',function(){
+   window.clearInterval(timerId) 
+  })
+  $('.images,.buttons').on('mouseleave',function(){
+  timerId = setInterval(()=>{
+        var m = n%buttons.length
+        buttons.eq(m).trigger('click').addClass('active').siblings('.active').removeClass('active')
+        n+=1     
+  },4000)
+  })
+ document.addEventListener('visibilitychange',function(){
+    if(document.hidden){
+        window.clearInterval(timerId) 
+    }else{
+        timerId = setInterval(()=>{
+        var m = n%buttons.length
+        buttons.eq(m).trigger('click').addClass('active').siblings('.active').removeClass('active')
+        n+=1     
+  },4000)
+    }
+}) 
+</script>
+</html>
